@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+        <!--PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://primefaces.org/ui ">
+
+<h:head>
+    <h:outputScript library="js" name="canvas.js"></h:outputScript>
+   <!-- <h:outputScript name=""/> -->
+    <link rel="stylesheet" type="text/css" href="styles/main.css"/>
+    <title>I want to die - main</title>
+</h:head>
+
+<h:body>
+    <h1 id="my_name">Русакова Елена Дмитриевна, P3217, вариант 1734</h1>
+    <div>
+        <h:form>
+            <div class="param" id="x_param">
+                <p:outputLabel value="x:"/>
+                <p:spinner min="-5" max="5" stepFactor="0.1" value="#{dotsBean.newDot.x}">
+
+                </p:spinner>
+            </div>
+            <div class="param" id="y_param">
+                <p:outputLabel value="y:"/>
+                <h:inputText type="text"
+                             value="#{dotsBean.newDot.y}"
+                             validatorMessage="Значение y не входит в [-3; 3]"
+                             converterMessage="Введите число">
+                <f:validateDoubleRange minimum="-3" maximum="3"/>
+                </h:inputText>
+            </div>
+            <div class="param" id="r_param">
+                <h:commandLink value="1" action="#{dotsBean.newDot.setR(1)}"/>
+                <h:commandLink value="1.5" action="#{dotsBean.newDot.setR(1.5)}"/>
+                <h:commandLink value="2" action="#{dotsBean.newDot.setR(2)}"/>
+                <h:commandLink value="2.5" action="#{dotsBean.newDot.setR(2.5)}"/>
+                <h:commandLink value="3" action="#{dotsBean.newDot.setR(3)}"/>
+            </div>
+            <div>
+                <h:commandButton type="submit"
+                                 id="check"
+                                 value="Проверить"
+                                 action="#{dotsBean.add()}"/>
+                <h:button value="На стартовую страницу"
+                          id="to_start"
+                          outcome="to_start"
+                />
+            </div>
+        </h:form>
+    </div>
+    <div>
+        <canvas id="canvas" width="500" height="500"/>
+    </div>
+    <div class="result_in_table">
+        <h:dataTable id="table" value="#{dotsBean.dots}" var="dot">
+            <h:column>
+                <f:facet name="header">X</f:facet>
+                <h:outputText id="x" value="#{dot.x}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Y</f:facet>
+                <h:outputText id="y" value="#{dot.y}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">R</f:facet>
+                <h:outputText id="r" value="#{dot.r}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Результат</f:facet>
+                <h:outputText styleClass="#{dot.resultClass}" id="result" value="#{dot.resultString}"/>
+            </h:column>
+            <h:column>
+
+                <f:facet name="header">Текущее время</f:facet>
+                <h:outputText id="time" value="#{dot.time}"/>
+            </h:column>
+
+        </h:dataTable>
+
+    </div>
+</h:body>
+
+</html>

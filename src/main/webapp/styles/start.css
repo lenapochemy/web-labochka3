@@ -1,0 +1,22 @@
+#my_name {
+    font-family: fantasy;
+    color: deeppink;
+    text-shadow: 2px 2px 2px black;
+    font-size: 3rem;
+    word-spacing: 4pt;
+    letter-spacing: 2pt;
+}
+{
+    background-color: #B1DDF0;
+}
+#to_main_button{
+    background-color: cornflowerblue;
+    font-weight: bold;
+    padding: 4px 9px 4px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+}
+#to_main_button:hover, #to_main_button:focus{
+    background-color: lightpink;
+}

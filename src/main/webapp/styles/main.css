@@ -1,0 +1,101 @@
+body {
+    background-color: #B1DDF0;
+
+}
+#my_name {
+    font-family: fantasy;
+    color: deeppink;
+    text-shadow: 2px 2px 2px black;
+    font-size: 3rem;
+    word-spacing: 4pt;
+    letter-spacing: 2pt;
+}
+
+.param {
+    font-size: large;
+    font-weight: bold;
+}
+
+img {
+    height: 300px;
+}
+
+table[id="result_in_table"] tr:hover {
+    color: darkblue;
+    background-color: hotpink;
+}
+table[id="result_in_table"] > thead {
+    font-size: large;
+}
+
+table > caption {
+    font-size: larger;
+    font-weight: bold;
+    background-color: deeppink;
+    height: 2.5ch;
+}
+
+h1, table[id="result_in_table"] > tr{
+    text-align: center;
+}
+
+#instruction {
+    font-size: large;
+}
+
+/*table#result_in_table {
+    table-layout: fixed;
+}
+
+ */
+
+button:hover, button:focus{
+    background-color: lightpink;
+}
+
+input[type="button"]:hover{
+    background-color: lightpink;
+}
+
+input[type="button"]{
+    background-color: pink;
+}
+
+
+button {
+    background-color: cornflowerblue;
+    font-weight: bold;
+    padding: 4px 9px 4px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+}
+
+a{
+    outline: none;
+    text-decoration: none;
+}
+a:link{
+    color: black;
+}
+a:visited{
+    color: black;
+}
+a:focus{
+    border-bottom: 1px solid;
+    background: deeppink;
+}
+a:hover{
+    background-color: deeppink;
+    border-bottom: 1px solid;
+}
+a:active{
+    background: cornflowerblue;
+    color: black;
+}
+.success{
+    color: green;
+}
+.fail {
+    color: red;
+}
