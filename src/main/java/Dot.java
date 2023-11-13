@@ -10,7 +10,7 @@ public class Dot implements Serializable {
     private Double r;
     private boolean result;
     private String owner;
-    private final String time;
+    private String time;
     private final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     public Dot(Double x, Double y, Double r, String owner){
@@ -57,7 +57,7 @@ public class Dot implements Serializable {
         else return "Точка не попала";
     }
 
-    public String getResultStatus(){
+    public String getResultClass(){
         if(result) return "success";
         else return "fail";
     }
@@ -75,6 +75,9 @@ public class Dot implements Serializable {
     }
     public void setResult(boolean isInArea){
         this.result = isInArea;
+    }
+    public void setTime(String time){
+        this.time = time;
     }
 
     @Override

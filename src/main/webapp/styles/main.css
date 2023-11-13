@@ -2,13 +2,16 @@ body {
     background-color: #B1DDF0;
 
 }
-#my_name {
+#my_name, #lab_work {
     font-family: fantasy;
     color: deeppink;
     text-shadow: 2px 2px 2px black;
     font-size: 3rem;
     word-spacing: 4pt;
     letter-spacing: 2pt;
+}
+#lab_work{
+    font-size: 2rem;
 }
 
 .param {
@@ -20,49 +23,27 @@ img {
     height: 300px;
 }
 
-table[id="result_in_table"] tr:hover {
+#table tr:hover {
     color: darkblue;
     background-color: hotpink;
 }
-table[id="result_in_table"] > thead {
+#table > thead {
     font-size: large;
 }
 
-table > caption {
+#table > caption {
     font-size: larger;
     font-weight: bold;
     background-color: deeppink;
     height: 2.5ch;
 }
-
-h1, table[id="result_in_table"] > tr{
+h1, h2, #table > tr{
     text-align: center;
 }
-
-#instruction {
-    font-size: large;
-}
-
-/*table#result_in_table {
-    table-layout: fixed;
-}
-
- */
-
-button:hover, button:focus{
+.butt:hover, .butt:focus{
     background-color: lightpink;
 }
-
-input[type="button"]:hover{
-    background-color: lightpink;
-}
-
-input[type="button"]{
-    background-color: pink;
-}
-
-
-button {
+.butt {
     background-color: cornflowerblue;
     font-weight: bold;
     padding: 4px 9px 4px;
@@ -70,22 +51,27 @@ button {
     display: flex;
     justify-content: center;
 }
+.spinner{
+    white-space: nowrap;
+}
 
 a{
     outline: none;
     text-decoration: none;
-}
-a:link{
+    display: inline-block;
+    width: 6%;
+    margin-right: 0.4%;
+    text-align: center;
+    line-height: 1;
+    padding: 3px 3px 3px;
     color: black;
+    background-color: lightpink;
 }
-a:visited{
+a:link, a:visited{
     color: black;
+    background-color: lightpink;
 }
-a:focus{
-    border-bottom: 1px solid;
-    background: deeppink;
-}
-a:hover{
+a:hover, a:focus{
     background-color: deeppink;
     border-bottom: 1px solid;
 }
@@ -99,3 +85,19 @@ a:active{
 .fail {
     color: red;
 }
+
+.paramss{
+    float: left;
+    width: 30%;
+}
+.buttonss{
+    width: 20%;
+}
+.canvasss{
+    float:right;
+    width: 50%;
+}
+.result_in_table{
+    width: 100%;
+}
+

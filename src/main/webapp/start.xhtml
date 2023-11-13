@@ -13,8 +13,7 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-   <!-- <h:outputScript name=""/>
-    <h:outputScript name=""/> -->
+   <!-- <h:outputScript name=""/> -->
 
     <link rel="stylesheet" type="text/css" href="styles/start.css"/>
     <title>I want to die</title>
@@ -23,11 +22,13 @@
 <h:body id="body">
 
     <h1 id="my_name">Русакова Елена Дмитриевна, P3217, вариант 1734</h1>
+    <h2 id="lab_work">Лабораторная работа 3</h2>
     <h:form id="form">
-        <h:button value="К форме" outcome="to_main" id="to_main_button"/>
+        <h:button styleClass="but" value="К форме" outcome="to_main" id="to_main_button"/>
     </h:form>
-    <div class="clock">
-        clockssss
+    <div id="clock" >
+        <span class="clocks" id="h"/> : <span class="clocks" id="m"/> : <span class="clocks" id="s"/>
+        <script type="application/javascript" src="resources/js/clock.js"/>
     </div>
 
 </h:body>

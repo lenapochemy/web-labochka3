@@ -1,4 +1,4 @@
-#my_name {
+#my_name, #lab_work {
     font-family: fantasy;
     color: deeppink;
     text-shadow: 2px 2px 2px black;
@@ -6,7 +6,11 @@
     word-spacing: 4pt;
     letter-spacing: 2pt;
 }
-{
+
+#lab_work{
+    font-size: 2rem;
+}
+body{
     background-color: #B1DDF0;
 }
 #to_main_button{
@@ -19,4 +23,28 @@
 }
 #to_main_button:hover, #to_main_button:focus{
     background-color: lightpink;
+}
+
+#clock{
+    font-family: fantasy;
+    color: dodgerblue;
+    text-shadow: 2px 2px 2px black;
+    font-size: 5rem;
+    word-spacing: 4pt;
+    letter-spacing: 2pt;
+}
+
+.but{
+    background-color: cornflowerblue;
+    font-weight: bold;
+    padding: 4px 9px 4px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+}
+.but:hover, .but:focus{
+     background-color: lightpink;
+ }
+h1, h2, .but, #clock{
+    text-align: center;
 }
