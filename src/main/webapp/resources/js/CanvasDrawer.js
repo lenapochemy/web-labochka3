@@ -18,7 +18,6 @@ class CanvasDrawer{
         if(this.lastR == null){
             alert('выберите радиус сначала');
         }
-        //this.drawDot()
 
         addDotFromCanvas(
             [
@@ -27,9 +26,7 @@ class CanvasDrawer{
                 {name: "r", value: this.lastR.toString()}
             ]
         )
-        //this.drawAllDots();
         updateCan();
-        //this.redraw(this.lastR);
 
     }
 

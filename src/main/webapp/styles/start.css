@@ -33,18 +33,35 @@ body{
     word-spacing: 4pt;
     letter-spacing: 2pt;
 }
-
+img {
+    height: 450px;
+}
 .but{
-    background-color: cornflowerblue;
+    background-color: deeppink;
     font-weight: bold;
     padding: 4px 9px 4px;
     font-size: large;
-    display: flex;
-    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+#form{
+    margin: auto;
+    width: 35px;
+    vertical-align: center;
 }
 .but:hover, .but:focus{
      background-color: lightpink;
  }
 h1, h2, .but, #clock{
     text-align: center;
+}
+
+.view{
+    float: left;
+    width: 50%;
+}
+.pig{
+    float: right;
+    width: 50%;
+
 }

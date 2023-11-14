@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-        <!--PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" -->
-
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -10,8 +7,6 @@
       xsi:schemaLocation="http://primefaces.org/ui ">
 
 <h:head>
-    <!--<h:outputScript library="js" name="canvas.js"/> -->
-   <!-- <h:outputScript name=""/> -->
     <link rel="stylesheet" type="text/css" href="styles/main.css"/>
     <title>I want to die - main</title>
 </h:head>
@@ -19,25 +14,18 @@
 <h:body>
     <h1 id="my_name">Русакова Елена Дмитриевна, P3217, вариант 1734</h1>
     <h2 id="lab_work">Лабораторная работа 3</h2>
-    <div>
-        <h:form>
-            <div class="param" id="x_param">
-                <p:outputLabel value="X:"/>
-                <p:spinner styleClass="spinner" min="-5" max="5" stepFactor="0.1" rotate="true" value="#{dotsBean.newDot.x}" >
-                </p:spinner>
+    <div class="aaa">
+        <div>
+            <div class="canvasss">
+                <canvas id="canvas" width="500" height="500"/>
+                <script type="application/javascript" src="resources/js/canvas.js"></script>
+                <script type="application/javascript" src="resources/js/CanvasDrawer.js"></script>
+                <h:panelGroup id="updateCanvas">
+                    <script type="application/javascript" src="resources/js/newDotCanvas.js"></script>
+                </h:panelGroup>
             </div>
-            <div class="param">
-                <p:outputLabel value="Y:"/>
-                <h:message for="y_param" styleClass="fail"/>
-                <h:inputText id="y_param"
-                             type="text"
-                             value="#{dotsBean.newDot.y}"
-                             validatorMessage="Значение y не входит в [-3; 3]">
-<!--                             converterMessage="Введите число"> -->
 
-                <f:validateDoubleRange minimum="-3" maximum="3"/>
-                </h:inputText>
-            </div>
+        <h:form >
             <div class="param" id="r_param">
                 <p:outputLabel value="R:"/>
                 <h:commandLink value="1" action="#{dotsBean.newDot.setR(1)}">
@@ -56,32 +44,48 @@
                     <f:ajax onevent="canvasDrawer.drawArea(3)"/>
                 </h:commandLink>
             </div>
-            <div>
+
+            <div class="paramss">
+            <div class="param" id="x_param">
+                <p:outputLabel value="X:"/>
+                <p:spinner styleClass="spinner" min="-5" max="5" stepFactor="0.1" rotate="true" value="#{dotsBean.newDot.x}" required="true" >
+                </p:spinner>
+            </div>
+            <div class="param">
+                <p:outputLabel value="Y:"/>
+                <h:inputText id="y_param"
+                             type="text"
+                             value="#{dotsBean.newDot.y}"
+                             validatorMessage="Значение y не входит в [-3; 3]"
+                             requiredMessage="Введите число"
+                            required="true">
+                <f:validateDoubleRange minimum="-3" maximum="3"/>
+                </h:inputText>
+                <h:message for="y_param" styleClass="fail"/>
+            </div>
+
+            </div>
+            <div class="buttonss">
                 <h:commandButton type="submit"
                                  styleClass="butt"
                                  id="check"
                                  value="Проверить"
-                                 action="#{dotsBean.add()}"/>
+                                 action="#{dotsBean.
+                                 add()}"/>
                 <h:button value="На стартовую страницу"
                           id="to_start"
                           styleClass="butt"
                           outcome="to_start"
                 />
             </div>
+
         </h:form>
     </div>
-    <div>
-        <canvas id="canvas" width="500" height="500"/>
-        <script type="application/javascript" src="resources/js/canvas.js"></script>
-        <script type="application/javascript" src="resources/js/CanvasDrawer.js"></script>
-        <h:panelGroup id="updateCanvas">
-        <script type="application/javascript" src="resources/js/newDotCanvas.js"></script>
-    </h:panelGroup>
-       <!-- <h:panelGroup id="updateCanvas">
-        <script type="application/javascript" >
-            canvasDrawer.redraw(canvasDrawer.lastR);
-        </script>
-        </h:panelGroup> -->
+        <!--<div>
+            <img src="img/capy.jpg" alt="capybara with ducks)))"/>
+        </div> -->
+
+
     </div>
     <div class="result_in_table">
 
@@ -110,9 +114,10 @@
 
         </h:dataTable>
 
-        <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadAllDotsFromDatabase()}" update="table" process="@this"/>
+        <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadFromDatabase()}" update="table" process="@this"/>
         <p:remoteCommand name="addDotFromCanvas" action="#{dotsBean.addFromCanvas()}" update="table" process="@this"/>
         <p:remoteCommand name="updateCan" update="updateCanvas" process="@this"/>
+        <p:remoteCommand name="setParamR" action="#{dotsBean.newDot.setR(1)}" process="@this"/>
 
     </div>
 </h:body>

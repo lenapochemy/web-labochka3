@@ -1,6 +1,6 @@
 body {
     background-color: #B1DDF0;
-
+    width: 100%;
 }
 #my_name, #lab_work {
     font-family: fantasy;
@@ -14,11 +14,6 @@ body {
     font-size: 2rem;
 }
 
-.param {
-    font-size: large;
-    font-weight: bold;
-}
-
 img {
     height: 300px;
 }
@@ -27,11 +22,11 @@ img {
     color: darkblue;
     background-color: hotpink;
 }
-#table > thead {
+#table > header {
     font-size: large;
 }
 
-#table > caption {
+#table > thead {
     font-size: larger;
     font-weight: bold;
     background-color: deeppink;
@@ -40,9 +35,7 @@ img {
 h1, h2, #table > tr{
     text-align: center;
 }
-.butt:hover, .butt:focus{
-    background-color: lightpink;
-}
+
 .butt {
     background-color: cornflowerblue;
     font-weight: bold;
@@ -50,6 +43,21 @@ h1, h2, #table > tr{
     font-size: large;
     display: flex;
     justify-content: center;
+}
+#to_start{
+    font-weight: bold;
+    padding: 4px 9px 4px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    background-color: deeppink;
+}
+
+.butt:hover, .butt:focus{
+    background-color: lightpink;
+}
+#to_start:hover, #to_start:focus{
+    background-color: lightpink;
 }
 .spinner{
     white-space: nowrap;
@@ -86,18 +94,29 @@ a:active{
     color: red;
 }
 
-.paramss{
+.aaa{
     float: left;
-    width: 30%;
-}
-.buttonss{
-    width: 20%;
-}
-.canvasss{
-    float:right;
     width: 50%;
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    flex-basis: auto;
 }
 .result_in_table{
-    width: 100%;
+    float: right;
+    width: 50%;
+}
+img {
+    height: 700px;
+}
+.param {
+    font-size: large;
+    font-weight: bold;
+    flex-grow: 2;
+    margin: auto;
+}
+.canvasss, .buttonss{
+    flex-grow: 1;
+    margin: auto;
 }
 

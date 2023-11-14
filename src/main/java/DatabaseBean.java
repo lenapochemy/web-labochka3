@@ -43,31 +43,20 @@ try {
 
     public boolean addDot(Dot dot){
         try{
-           // connection.setAutoCommit(false);
-           // connection.setSavepoint();
             PreparedStatement addStatement = connection.prepareStatement(ADD_DOT);
             addStatement.setDouble(1, dot.getX());
             addStatement.setDouble(2, dot.getY());
             addStatement.setDouble(3, dot.getR());
             addStatement.setBoolean(4, dot.getResult());
-            //addStatement.setString(5, dot.getOwner());
-            addStatement.setString(5,"owner");
+            addStatement.setString(5, dot.getOwner());
+            //addStatement.setString(5,"owner");
             addStatement.setString(6, dot.getTime());
             addStatement.executeUpdate();
             addStatement.close();
 
-          //  connection.commit();
-          //  connection.setAutoCommit(true);
             return true;
         } catch (SQLException e){
-            //try {
-              //  connection.rollback();
-               // connection.setAutoCommit(true);
                 e.printStackTrace();
-           // } catch (SQLException e1){
-            //    e1.printStackTrace();
-              //  return false;
-           // }
             return false;
         }
     }
@@ -107,19 +96,21 @@ try {
         try {
             double x, y, r;
             boolean result;
-            String time;
+            String time, owner;
             while (resultSet.next()) {
                 x = resultSet.getDouble("x");
                 y = resultSet.getDouble("y");
                 r = resultSet.getDouble("r");
                 result = resultSet.getBoolean("result");
                 time = resultSet.getString("time");
+                owner = resultSet.getString("owner");
                 Dot dot = new Dot();
                 dot.setX(x);
                 dot.setY(y);
                 dot.setR(r);
                 dot.setResult(result);
                 dot.setTime(time);
+                dot.setOwner(owner);
                 dots.add(dot);
             }
         } catch (SQLException e){
