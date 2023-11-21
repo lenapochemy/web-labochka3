@@ -8,10 +8,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ManagedBean
@@ -23,6 +21,8 @@ public class DotsBean implements Serializable {
     private Dot newDot = new Dot();
     private final DatabaseBean databaseBean = new DatabaseBean();
     private List<Dot> dots = new LinkedList<>();
+    private final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
     public List<Dot> getDots(){
         return dots;
     }
@@ -45,6 +45,10 @@ public class DotsBean implements Serializable {
 
     public void add(){
         newDot.setResult(isInArea(newDot));
+        Date d = new Date();
+        newDot.setTime(formatter.format(d));
+        newDot.setOwner(owner);
+      //  this.time = formatter.format(d);
         this.addDot(newDot);
         newDot = new Dot(newDot.getX(), newDot.getY(), newDot.getR(), newDot.getOwner());
     }
@@ -66,6 +70,8 @@ public class DotsBean implements Serializable {
             double r = Double.parseDouble(params.get("r"));
 
             Dot dot = new Dot(x, y, r, owner);
+            Date d = new Date();
+            dot.setTime(formatter.format(d));
             dot.setResult(isInArea(dot));
             this.addDot(dot);
         } catch (IllegalArgumentException e){

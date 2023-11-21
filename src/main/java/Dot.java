@@ -11,7 +11,7 @@ public class Dot implements Serializable {
     private boolean result;
     private String owner;
     private String time;
-    private final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//    private final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     public Dot(Double x, Double y, Double r, String owner){
         this.x = x;
@@ -19,13 +19,13 @@ public class Dot implements Serializable {
         this.r = r;
         this.owner = owner;
         //this.hit = isInArea();
-        Date d = new Date();
-        this.time = formatter.format(d);
+//        Date d = new Date();
+//        this.time = formatter.format(d);
     }
 
     public Dot(){
-        Date d = new Date();
-        this.time = formatter.format(d);
+//        Date d = new Date();
+//        this.time = formatter.format(d);
     }
 
 
