@@ -142,6 +142,11 @@ public class DotsBean implements Serializable {
 //        nextButton = databaseBean.getHasNext();
 //    }
 
+    @PostConstruct
+    public void loadStartStr(){
+        loadStr(0);
+    }
+
     public void loadStr(int str){
         this.str = str;
         this.dots = databaseBean.getNext20DotsByOwner(owner, str);
@@ -189,7 +194,7 @@ public class DotsBean implements Serializable {
         this.dots.add(0, dot);
         newPagBut();
         str = 0;
-        loadStr(0);
+        loadStr(str);
         //loadFromDatabase();
     }
 

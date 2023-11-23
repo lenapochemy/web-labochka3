@@ -90,12 +90,19 @@
         <h:form id="paginat">
             <h:dataTable id="pagBut" value="#{dotsBean.pagBut}" var="str">
                 <h:column>
-                    <h:commandButton styleClass="#{dotsBean.getPageClass(str)}" value="#{str + 1}" action="#{dotsBean.loadStr(str)}"/>
+                    <h:commandButton styleClass="#{dotsBean.getPageClass(str)}" value="#{str + 1}" action="#{dotsBean.loadStr(str)}">
+                       <!-- <f:ajax onevent="canvasDrawer.drawArea(canvasDrawer.lastR)"/> -->
+                    </h:commandButton>
                 </h:column>
+                <p:remoteCommand name="dotsFromPage" update="updateCanvas" process="@this"/>
             </h:dataTable>
         </h:form>
 
         <h:dataTable id="table" value="#{dotsBean.dots}" var="dot" border="1">
+            <h:column>
+                <f:facet name="header">№</f:facet>
+                <h:outputText id="num" value="#{dot.id}"/>
+            </h:column>
             <h:column>
                 <f:facet name="header">X</f:facet>
                 <h:outputText id="x" value="#{dot.x}"/>
@@ -120,7 +127,7 @@
 
 
 
-     <!--   <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadStr(0)}" update="table" process="@this"/> -->
+        <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadStartStr()}" update="table" process="@this"/>
         <p:remoteCommand name="addDotFromCanvas" action="#{dotsBean.addFromCanvas()}" update="table" process="@this"/>
         <p:remoteCommand name="updateCan" update="updateCanvas" process="@this"/>
         <p:remoteCommand name="updateButtons" update="paginat" process="@this"/>

@@ -11,6 +11,7 @@ public class Dot implements Serializable {
     private boolean result;
     private String owner;
     private String time;
+    private int id;
 //    private final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     public Dot(Double x, Double y, Double r, String owner){
@@ -51,6 +52,9 @@ public class Dot implements Serializable {
     public boolean getResult() {
         return result;
     }
+    public int getId(){
+        return id;
+    }
 
     public String getResultString(){
         if(result) return "Точка попала";
@@ -80,15 +84,8 @@ public class Dot implements Serializable {
         this.time = time;
     }
 
-    @Override
-    public String toString(){
-        return "<tr>" +
-                "<td>" + this.x + "</td>" +
-                "<td>" + this.y + "</td>" +
-                "<td>" + this.r + "</td>" +
-                "<td>" + this.result + "</td>" +
-                "<td>" + this.time + "</td>" +
-                "</tr>";
+    public void setId(int id){
+        this.id = id;
     }
 
 }

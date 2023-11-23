@@ -207,6 +207,7 @@ try {
             double x, y, r;
             boolean result;
             String time, owner;
+            int id;
             while (resultSet.next()) {
                 x = resultSet.getDouble("x");
                 y = resultSet.getDouble("y");
@@ -214,6 +215,7 @@ try {
                 result = resultSet.getBoolean("result");
                 time = resultSet.getString("time");
                 owner = resultSet.getString("owner");
+                id = resultSet.getInt("dots_id");
                 Dot dot = new Dot();
                 dot.setX(x);
                 dot.setY(y);
@@ -221,6 +223,7 @@ try {
                 dot.setResult(result);
                 dot.setTime(time);
                 dot.setOwner(owner);
+                dot.setId(id);
                 dots.add(dot);
             }
         } catch (SQLException e){

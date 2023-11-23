@@ -1,1 +1,2 @@
-canvasDrawer.drawArea(canvasDrawer.lastR);
+r = sessionStorage.getItem("lastR")
+canvasDrawer.drawArea(r);

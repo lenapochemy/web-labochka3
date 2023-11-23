@@ -51,10 +51,10 @@ class CanvasDrawer{
         $("#table tr").each(function (){
             //let rowLength = table.rows.length;
             let row = $(this);
-            let x = parseFloat(row.find("td:eq(0)").text());
-            let y = parseFloat(row.find("td:eq(1)").text());
-            let r = parseFloat(row.find("td:eq(2)").text());
-            let result = (row.find("td:eq(3)").text() === "Точка попала");
+            let x = parseFloat(row.find("td:eq(1)").text());
+            let y = parseFloat(row.find("td:eq(2)").text());
+            let r = parseFloat(row.find("td:eq(3)").text());
+            let result = (row.find("td:eq(4)").text() === "Точка попала");
 
          //   console.log("x: " + x + " y: " + y + " res: " + result);
             canvasDrawer.drawDot(x, y, r, result);
