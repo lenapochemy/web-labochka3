@@ -70,8 +70,7 @@
                                  styleClass="butt"
                                  id="check"
                                  value="Проверить"
-                                 action="#{dotsBean.
-                                 add()}"/>
+                                 action="#{dotsBean.add()}"/>
                 <h:button value="На стартовую страницу"
                           id="to_start"
                           styleClass="butt"
@@ -88,6 +87,13 @@
 
     </div>
     <div class="result_in_table">
+        <h:form id="paginat">
+            <h:dataTable id="pagBut" value="#{dotsBean.pagBut}" var="str">
+                <h:column>
+                    <h:commandButton styleClass="#{dotsBean.getPageClass(str)}" value="#{str + 1}" action="#{dotsBean.loadStr(str)}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
 
         <h:dataTable id="table" value="#{dotsBean.dots}" var="dot" border="1">
             <h:column>
@@ -107,16 +113,17 @@
                 <h:outputText styleClass="#{dot.resultClass}" id="result" value="#{dot.resultString}"/>
             </h:column>
             <h:column>
-
                 <f:facet name="header">Текущее время</f:facet>
                 <h:outputText id="time" value="#{dot.time}"/>
             </h:column>
-
         </h:dataTable>
 
-        <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadFromDatabase()}" update="table" process="@this"/>
+
+
+     <!--   <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadStr(0)}" update="table" process="@this"/> -->
         <p:remoteCommand name="addDotFromCanvas" action="#{dotsBean.addFromCanvas()}" update="table" process="@this"/>
         <p:remoteCommand name="updateCan" update="updateCanvas" process="@this"/>
+        <p:remoteCommand name="updateButtons" update="paginat" process="@this"/>
       <!--  <p:remoteCommand name="setParamR" action="#{dotsBean.newDot.setR(1)}" process="@this"/> -->
 
     </div>

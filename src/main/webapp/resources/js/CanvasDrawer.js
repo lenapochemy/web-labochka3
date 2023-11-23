@@ -19,6 +19,8 @@ class CanvasDrawer{
             alert('выберите радиус сначала');
         }
 
+        sessionStorage.setItem("lastR", this.lastR);
+
         addDotFromCanvas(
             [
                 {name: "x", value: x.toString()},
@@ -26,7 +28,9 @@ class CanvasDrawer{
                 {name: "r", value: this.lastR.toString()}
             ]
         )
-        updateCan();
+         updateCan();
+        // checkUpdate();
+         updateButtons();
 
     }
 

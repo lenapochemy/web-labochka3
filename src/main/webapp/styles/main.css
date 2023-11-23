@@ -32,6 +32,11 @@ img {
     background-color: deeppink;
     height: 2.5ch;
 }
+
+#table > tr{
+    height: 20px;
+}
+
 h1, h2, #table > tr{
     text-align: center;
 }
@@ -75,15 +80,28 @@ a{
     color: black;
     background-color: lightpink;
 }
+.pagination{
+    background-color: lightpink;
+    width: 30px;
+}
+.currentPag{
+    background-color: deeppink;
+    width: 30px;
+}
+
+.nonePag{
+    display: none;
+}
+
 a:link, a:visited{
     color: black;
     background-color: lightpink;
 }
-a:hover, a:focus{
+a:hover, a:focus, .pagination:hover, .pagination:focus{
     background-color: deeppink;
     border-bottom: 1px solid;
 }
-a:active{
+a:active, .pagination:active{
     background: cornflowerblue;
     color: black;
 }
@@ -105,6 +123,7 @@ a:active{
 .result_in_table{
     float: right;
     width: 50%;
+    display: flex;
 }
 img {
     height: 700px;

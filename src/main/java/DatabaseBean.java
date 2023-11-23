@@ -16,6 +16,9 @@ public class DatabaseBean implements Serializable {
     private final String login = "s367519";
     private final String password = "Ph4YbHYFFztmodS5";
     private Connection connection;
+   // private boolean moreThan20 = false;
+    private boolean hasNext = false;
+  //  private boolean hasPrev = false;
 
     public DatabaseBean(){
 try {
@@ -38,7 +41,11 @@ try {
 
     private static final String ADD_DOT = "INSERT INTO dots (x, y, r ,result, owner, time) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_DOTS_BY_OWNER = "SELECT * FROM dots WHERE owner = ?";
+    private static final String GET_20_DOTS_BY_OWNER = "SELECT * FROM dots WHERE owner = ? ORDER BY time DESC LIMIT 20";
+    private static final String GET_NEXT_20_DOTS_BY_OWNER = "SELECT * FROM dots WHERE owner = ? ORDER BY time DESC LIMIT 20 OFFSET ?";
     private static final String GET_ALL_DOTS = "SELECT * FROM dots";
+    private static final String GET_COUNT = "SELECT count(dots_id) FROM dots WHERE owner = ?";
+    private static final int limit = 20;
 
 
     public boolean addDot(Dot dot){
@@ -48,8 +55,8 @@ try {
             addStatement.setDouble(2, dot.getY());
             addStatement.setDouble(3, dot.getR());
             addStatement.setBoolean(4, dot.getResult());
-            addStatement.setString(5, dot.getOwner());
-            //addStatement.setString(5,"owner");
+           // addStatement.setString(5, dot.getOwner());
+            addStatement.setString(5,"owner");
             addStatement.setString(6, dot.getTime());
             addStatement.executeUpdate();
             addStatement.close();
@@ -60,6 +67,64 @@ try {
             return false;
         }
     }
+
+    public int strCount(String owner, int str){
+        try{
+            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
+            countStatement.setString(1, owner);
+            ResultSet resultSet = countStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+            if(count > (str + 1) * limit) hasNext = true;
+            else hasNext = false;
+            return (int) Math.ceil(1.0 * count / limit);
+        } catch (SQLException e){
+            //
+            return 0;
+        }
+    }
+
+//    public void checkCount(String owner){
+//        try{
+//            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
+//            countStatement.setString(1, owner);
+//            ResultSet resultSet = countStatement.executeQuery();
+//            resultSet.next();
+//            int count = resultSet.getInt(1);
+//            if(count > 20) moreThan20 = true;
+//        } catch (SQLException e){
+//            //
+//        }
+//    }
+
+//    public void checkHasNext(String owner, int str){
+//        try{
+//            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
+//            countStatement.setString(1, owner);
+//            ResultSet resultSet = countStatement.executeQuery();
+//            resultSet.next();
+//            int count = resultSet.getInt(1);
+//            if(count > (str + 1) * limit) hasNext = true;
+//                else hasNext = false;
+//        } catch (SQLException e){
+//            //
+//        }
+//    }
+
+//    public void checkHasPrev(String owner, int str){
+//        try{
+//            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
+//            countStatement.setString(1, owner);
+//            ResultSet resultSet = countStatement.executeQuery();
+//            resultSet.next();
+//            int count = resultSet.getInt(1);
+//            if(count > str * limit) hasNext = true;
+//            else hasNext = false;
+//        } catch (SQLException e){
+//            //
+//        }
+//    }
+
 
     public List<Dot> getDotsByOwner(String owner) {
         List<Dot> dots = new LinkedList<>();
@@ -75,6 +140,51 @@ try {
             // return null;
         }
         return dots;
+    }
+
+    public List<Dot> get20DotsByOwner(String owner) {
+        List<Dot> dots = new LinkedList<>();
+        try {
+            PreparedStatement getStatement = connection.prepareStatement(GET_20_DOTS_BY_OWNER);
+            getStatement.setString(1, owner);
+            ResultSet resultSet = getStatement.executeQuery();
+
+            dots = dotsFromResult(resultSet);
+            System.out.println("size: " + dots.size());
+
+           // if(!moreThan20) checkCount(owner);
+
+            //return dots;
+        } catch (SQLException e){
+            // return null;
+        }
+        return dots;
+    }
+
+    public List<Dot> getNext20DotsByOwner(String owner, int str) {
+        List<Dot> dots = new LinkedList<>();
+        try {
+            PreparedStatement getStatement = connection.prepareStatement(GET_NEXT_20_DOTS_BY_OWNER);
+            getStatement.setString(1, owner);
+            getStatement.setInt(2, limit * str);
+            ResultSet resultSet = getStatement.executeQuery();
+
+            dots = dotsFromResult(resultSet);
+           // System.out.println("size: " + dots.size());
+            //if(!moreThan20) checkCount(owner);
+            //checkHasNext(owner, str);
+            //return dots;
+        } catch (SQLException e){
+            // return null;
+        }
+        return dots;
+    }
+
+//    public boolean getMoreThan20(){
+//        return moreThan20;
+//    }
+    public boolean getHasNext(){
+        return hasNext;
     }
 
     public List<Dot> getAllDots() {
