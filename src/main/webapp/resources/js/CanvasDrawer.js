@@ -10,17 +10,23 @@ class CanvasDrawer{
         this.drawAxes();
     }
 
+    // обрабатывает клик по графику
     clickDot(event){
+        console.log("aaaaa try draw");
         let loc = this.windowToCanvas(canvas, event.clientX, event.clientY);
-        let x = this.xFromCanvas(loc.x);
-        let y = this.yFromCanvas(loc.y);
-       // console.log("x: " + x + " y: " + y);
         if(this.lastR == null){
             alert('выберите радиус сначала');
         }
 
+        // получаем значения x и y
+        let x = this.xFromCanvas(loc.x);
+        let y = this.yFromCanvas(loc.y);
+        console.log("x: " + x + " y: " + y);
+
+        // сохраняем значение радиуса в сессии
         sessionStorage.setItem("lastR", this.lastR);
 
+        //вызываем ремут комманд, передаем данные для точки
         addDotFromCanvas(
             [
                 {name: "x", value: x.toString()},
@@ -28,26 +34,52 @@ class CanvasDrawer{
                 {name: "r", value: this.lastR.toString()}
             ]
         )
-         updateCan();
-        // checkUpdate();
-         updateButtons();
+        console.log("оправили точку");
 
+        checkUpdate(); //загружаем первую страницу пагинации
+        updateButtons(); //обновляем кнопки пагинации
+
+        //this.drawArea(this.lastR);
+         updateCan();  //обновляем рисунок
+
+
+    }
+
+
+    //рисует точки на граыике
+    drawDozt(x, y, r, result){
+        console.log("зашли в рисование точки r=" + this.lastR);
+        x = this.xToCanvas(x);
+        y = this.yToCanvas(y);
+        //if(r === this.lastR) {
+            console.log("in if");
+            if (result) this.ctx.fillStyle = "green";
+            else this.ctx.fillStyle = "red";
+           // this.ctx.arc(x, y, 1.5, 0, Math.PI * 2, false);
+            this.ctx.fillRect(x, y, 3, 3);
+            this.ctx.fillStyle = "deeppink";
+       // }
+        console.log("nbgj в рисование точки");
     }
 
     drawDot(x, y, r, result){
+        console.log("r=" + r + " lastR=" + this.lastR);
         x = this.xToCanvas(x);
         y = this.yToCanvas(y);
-        if(r === this.lastR) {
-            if (result) this.ctx.fillStyle = "green";
-            else this.ctx.fillStyle = "red";
-            this.ctx.fillRect(x, y, 3, 3);
-            this.ctx.fillStyle = "deeppink";
+        console.log("x=" + x + " y=" + y);
+       if(r == this.lastR){
+            console.log("in if");
+            if(result) {this.ctx.fillStyle = "green";}
+                else {this.ctx.fillStyle = "red";}
+                this.ctx.fillRect(x, y, 3, 3);
+                this.ctx.fillStyle = "deeppink";
         }
     }
 
+
+    //рисует все точки из таблицы на график
     drawAllDots(){
        // console.log("in draw all dots");
-        //var data = [];
         $("#table tr").each(function (){
             //let rowLength = table.rows.length;
             let row = $(this);
@@ -56,12 +88,14 @@ class CanvasDrawer{
             let r = parseFloat(row.find("td:eq(3)").text());
             let result = (row.find("td:eq(4)").text() === "Точка попала");
 
-         //   console.log("x: " + x + " y: " + y + " res: " + result);
+            console.log("x: " + x + " y: " + y +" r: " + r +  " res: " + result);
             canvasDrawer.drawDot(x, y, r, result);
 
     })
     }
 
+
+    //перерисовывает график - рисует область, оси и все точки
     drawArea(r){
         this.lastR = r;
         this.ctx.clearRect(0,0, 500, 500);
@@ -90,10 +124,11 @@ class CanvasDrawer{
         this.ctx.fill();
 
         this.drawAxes();
+        console.log("обираемся рисовать точ4и");
         this.drawAllDots();
-        //drawDots();
     }
 
+    //рисует оси
     drawAxes(){
         this.ctx.beginPath();
         this.ctx.moveTo(0, 250);
@@ -102,6 +137,8 @@ class CanvasDrawer{
         this.ctx.lineTo(250, 500)
         this.ctx.stroke();
     }
+
+    //переводят координаты туда и обратно
     xToCanvas(x){
         return (x * 50) + 250;
     }

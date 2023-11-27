@@ -20,9 +20,12 @@ public class DotsBean implements Serializable {
     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
     //private String owner = session.getId();
     private String owner = "owner";
+    //номер текущей страницы
     private int str = 0;
-    //private boolean nextButton = false;
-    //private boolean prevButton = false;
+    //флаги для отображения кнопок след и пред страниц, в зависимоти от их наличия
+    private boolean nextButton = false;
+    private boolean prevButton = false;
+
     private Dot newDot = new Dot();
     private final DatabaseBean databaseBean = new DatabaseBean();
     private List<Dot> dots = new LinkedList<>();
@@ -31,11 +34,13 @@ public class DotsBean implements Serializable {
     public List<Dot> getDots(){
         return dots;
     }
+    //список номеров страниц, отображаемых в пагинации
     private List<Integer> pagBut = new ArrayList<>();
     public List<Integer> getPagBut(){
         return pagBut;
     }
 
+    //собирает новый список страниц для пагинации
     public void newPagBut(){
         pagBut.clear();
         int count = databaseBean.strCount(owner, str);
@@ -68,43 +73,13 @@ public class DotsBean implements Serializable {
                 }
             }
             pagBut.add(count - 1);
-//            if(str <= 4) {
-//                for(int i = 0; i <= str + 2 && i <= count; i++){
-//                    pagBut.add(i);
-//                }
-//                if(str + 2 + 1 < count) pagBut.add(-1);
-//                pagBut.add(count);
-//
-//            }
-//
-//
-
-//            pagBut.add(0);
-//            if(0 < str - 2 - 1) pagBut.add(-1);
-//            int i;
-//            if(str < 2) {i =0;}
-//                else {i = str - 2;}
-//            while(i <= str + 2){
-//                pagBut.add(i);
-//                i++;
-//            }
-//
-//            if(str + 2 + 1 < count) pagBut.add(-1);
-//            pagBut.add(count);
-
-//           pagBut.add(0);
-//           for(int i = str - 2; (0 <= i) && (i <= str + 2) && (i <= count); i++){
-//               pagBut.add(i);
-//           }
-//           pagBut.add(0);
-          // pagBut.add(count);
             pagBut = new HashSet<>(pagBut).stream().sorted().collect(Collectors.toList());
         }
 
 
     }
 
-
+    //возвращает стайо класс для кнопок пагинации, чтобы скрыть пропуски и выделить текущую страницу
 
     public String getPageClass(int page){
         if(page == -1) return "nonePag";
@@ -112,6 +87,7 @@ public class DotsBean implements Serializable {
         return "pagination";
     }
 
+    //достает все точки автора из бд
 //    @PostConstruct
 //    public void loadFromDatabase(){
 ////        this.dots = databaseBean.getDotsByOwner(owner);
@@ -124,45 +100,58 @@ public class DotsBean implements Serializable {
 //
 //    }
 
-//    public void loadPrevFromDatabase(){
-//        str--;
-//        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
-//        prevButton = str > 0;
-//        newPagBut();
-//        nextButton = databaseBean.getHasNext();
-//
-//    }
-//
-//    public void loadNextFromDatabase(){
-////        this.dots = databaseBean.getDotsByOwner(owner);
-//        str++;
-//        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
-//        prevButton = true;
-//        newPagBut();
-//        nextButton = databaseBean.getHasNext();
-//    }
 
-    @PostConstruct
-    public void loadStartStr(){
-        loadStr(0);
+    //достает пред стр из бд, меняет значение текущей страницы и флагов для пагинации
+    public void loadPrevFromDatabase(){
+        str--;
+        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
+        prevButton = str > 0;
+        newPagBut();
+        nextButton = databaseBean.getHasNext();
+
     }
 
+    //достает след стр из бд, меняет значение текущей страницы и флагов для пагинации
+
+    public void loadNextFromDatabase(){
+        str++;
+        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
+        prevButton = true;
+        newPagBut();
+        nextButton = databaseBean.getHasNext();
+    }
+
+    //достает первые 20 точек из бд - первую страницу, в самом начале работы
+    @PostConstruct
+    public void loadStartStr(){
+        str = 0;
+        prevButton = false;
+        nextButton = databaseBean.getHasNext();
+        newPagBut();
+        this.dots = databaseBean.get20DotsByOwner(owner);
+    }
+
+
+
+// достает нужную стр из бд по номеру, меняет флаги пагинации и текущую стр
     public void loadStr(int str){
         this.str = str;
         this.dots = databaseBean.getNext20DotsByOwner(owner, str);
         newPagBut();
-       // nextButton = databaseBean.getHasNext();
-        //prevButton = str > 0;
+        nextButton = databaseBean.getHasNext();
+        prevButton = str > 0;
+    }
+
+// озвращают значения флагов пред и след стр для пагинации
+    public boolean getNextButton(){
+        return nextButton;
+    }
+    public boolean getPrevButton(){
+        return prevButton;
     }
 
 
-//    public boolean getNextButton(){
-//        return nextButton;
-//    }
-//    public boolean getPrevButton(){
-//        return prevButton;
-//    }
-
+    //достает вообще все точки из бд
    /* @PostConstruct
     public void loadAllDotsFromDatabase(){
         this.dots = databaseBean.getAllDots();
@@ -170,34 +159,30 @@ public class DotsBean implements Serializable {
 
         System.out.println("добавили точечки: " + dots.size() + " штуков");
     }
-
     */
 
+    //пришли новые данные, создаем новую точку и вызываем добавление ее в бд
     public void add(){
         newDot.setResult(isInArea(newDot));
         Date d = new Date();
         newDot.setTime(formatter.format(d));
         newDot.setOwner(owner);
-       // newDot.setOwner("owner");
-      //  this.time = formatter.format(d);
         this.addDot(newDot);
-        //loadFromDatabase();
-//        str = 0;
-//        loadNextFromDatabase();
         newDot = new Dot(newDot.getX(), newDot.getY(), newDot.getR(), newDot.getOwner());
     }
 
-
+//добавляет точку в бд, загружаем первуб страницу
     public void addDot(Dot dot){
         if(databaseBean.addDot(dot)) System.out.println("добавили точку в бд");
             else System.out.println(" не добавили точку в бд");
-        this.dots.add(0, dot);
-        newPagBut();
-        str = 0;
-        loadStr(str);
+        //this.dots.add(0, dot);
+        // newPagBut();
+        loadStartStr();
         //loadFromDatabase();
     }
 
+
+    //пришла новая точка с канваса, создаем и вызываем ее добавление в бд
     public void addFromCanvas(){
         final Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
        // params.values().forEach(System.out::println);
@@ -211,11 +196,6 @@ public class DotsBean implements Serializable {
             dot.setTime(formatter.format(d));
             dot.setResult(isInArea(dot));
             this.addDot(dot);
-//
-//            str = 0;
-//            loadNextFromDatabase();
-            //newPagBut();
-
         } catch (IllegalArgumentException e){
             e.printStackTrace();
         }
@@ -236,6 +216,8 @@ public class DotsBean implements Serializable {
         return newDot;
     }
 
+
+    //проверяет попадание точки в область
     private boolean isInArea(Dot dot){
         Double x = dot.getX();
         Double y = dot.getY();

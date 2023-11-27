@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Dot implements Serializable {
+public class Dot {
 
     private Double x;
     private Double y;
