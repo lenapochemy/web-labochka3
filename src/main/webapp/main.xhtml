@@ -59,6 +59,7 @@
                              value="#{dotsBean.newDot.y}"
                              validatorMessage="Значение y не входит в [-3; 3]"
                              requiredMessage="Введите число"
+                             converterMessage="Значение y должно быть числом"
                             required="true">
                 <f:validateDoubleRange minimum="-3" maximum="3"/>
                 </h:inputText>

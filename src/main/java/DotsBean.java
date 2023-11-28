@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 public class DotsBean implements Serializable {
     FacesContext context = FacesContext.getCurrentInstance();
     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-    private String owner = session.getId();
-    //private String owner = "owner";
+
+    //private String owner = session.getId();
+    private String owner = "owner";
     //номер текущей страницы
     private int str = 0;
 
@@ -27,6 +28,7 @@ public class DotsBean implements Serializable {
     public List<Dot> getDots(){
         return dots;
     }
+
     //список номеров страниц, отображаемых в пагинации
     private List<Integer> pagBut = new ArrayList<>();
     public List<Integer> getPagBut(){
@@ -91,7 +93,7 @@ public class DotsBean implements Serializable {
 
 
 
-    //достает первые 20 точек из бд - первую страницу, в самом начале работы
+    //достает первые 20 точек из бд - первую страницу
     @PostConstruct
     public void loadStartStr(){
         str = 0;

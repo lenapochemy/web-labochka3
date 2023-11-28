@@ -76,6 +76,7 @@ class CanvasDrawer{
     //перерисовывает график - рисует область, оси и все точки
     drawArea(r){
         this.lastR = r;
+        sessionStorage.setItem("lastR", this.lastR);
         this.ctx.clearRect(0,0, 500, 500);
         r = this.rToCanvas(r);
 

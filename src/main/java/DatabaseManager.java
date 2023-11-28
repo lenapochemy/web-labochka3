@@ -32,6 +32,7 @@ try {
         }
     }
 
+
     private static final String ADD_DOT = "INSERT INTO dots (x, y, r ,result, owner, time) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_DOTS_BY_OWNER = "SELECT * FROM dots WHERE owner = ?";
     private static final String GET_20_DOTS_BY_OWNER = "SELECT * FROM dots WHERE owner = ? ORDER BY time DESC LIMIT 20";
