@@ -1,11 +1,7 @@
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.context.FacesContext;
-import javax.faces.webapp.FacesServlet;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.Serializable;
@@ -18,16 +14,13 @@ import java.util.stream.Collectors;
 public class DotsBean implements Serializable {
     FacesContext context = FacesContext.getCurrentInstance();
     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-    //private String owner = session.getId();
-    private String owner = "owner";
+    private String owner = session.getId();
+    //private String owner = "owner";
     //номер текущей страницы
     private int str = 0;
-    //флаги для отображения кнопок след и пред страниц, в зависимоти от их наличия
-    private boolean nextButton = false;
-    private boolean prevButton = false;
 
     private Dot newDot = new Dot();
-    private final DatabaseBean databaseBean = new DatabaseBean();
+    private final DatabaseManager databaseManager = new DatabaseManager();
     private List<Dot> dots = new LinkedList<>();
     private final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -43,7 +36,7 @@ public class DotsBean implements Serializable {
     //собирает новый список страниц для пагинации
     public void newPagBut(){
         pagBut.clear();
-        int count = databaseBean.strCount(owner, str);
+        int count = databaseManager.strCount(owner);
         if(count <= 5) {
             for (int i = 0; i < count; i++) {
                 pagBut.add(i);
@@ -88,47 +81,22 @@ public class DotsBean implements Serializable {
     }
 
     //достает все точки автора из бд
-//    @PostConstruct
-//    public void loadFromDatabase(){
-////        this.dots = databaseBean.getDotsByOwner(owner);
-//        str = 0;
-//        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
-//        newPagBut();
-//        if(databaseBean.getHasNext()) nextButton = true;
-//
-//       // if(databaseBean.getMoreThan20()) nextButton = true;
-//
-//    }
-
-
-    //достает пред стр из бд, меняет значение текущей страницы и флагов для пагинации
-    public void loadPrevFromDatabase(){
-        str--;
-        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
-        prevButton = str > 0;
+   // @PostConstruct
+    public void loadFromDatabase(){
+        str = 0;
+        this.dots = databaseManager.getNext20DotsByOwner(owner, str);
         newPagBut();
-        nextButton = databaseBean.getHasNext();
 
     }
 
-    //достает след стр из бд, меняет значение текущей страницы и флагов для пагинации
 
-    public void loadNextFromDatabase(){
-        str++;
-        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
-        prevButton = true;
-        newPagBut();
-        nextButton = databaseBean.getHasNext();
-    }
 
     //достает первые 20 точек из бд - первую страницу, в самом начале работы
     @PostConstruct
     public void loadStartStr(){
         str = 0;
-        prevButton = false;
-        nextButton = databaseBean.getHasNext();
         newPagBut();
-        this.dots = databaseBean.get20DotsByOwner(owner);
+        this.dots = databaseManager.get20DotsByOwner(owner);
     }
 
 
@@ -136,30 +104,21 @@ public class DotsBean implements Serializable {
 // достает нужную стр из бд по номеру, меняет флаги пагинации и текущую стр
     public void loadStr(int str){
         this.str = str;
-        this.dots = databaseBean.getNext20DotsByOwner(owner, str);
+        this.dots = databaseManager.getNext20DotsByOwner(owner, str);
         newPagBut();
-        nextButton = databaseBean.getHasNext();
-        prevButton = str > 0;
     }
 
-// озвращают значения флагов пред и след стр для пагинации
-    public boolean getNextButton(){
-        return nextButton;
-    }
-    public boolean getPrevButton(){
-        return prevButton;
-    }
 
 
     //достает вообще все точки из бд
-   /* @PostConstruct
+   // @PostConstruct
     public void loadAllDotsFromDatabase(){
-        this.dots = databaseBean.getAllDots();
+        this.dots = databaseManager.getAllDots();
         dots = dots.stream().sorted(Comparator.comparing(Dot::getTime).reversed()).collect(Collectors.toList());
 
         System.out.println("добавили точечки: " + dots.size() + " штуков");
     }
-    */
+
 
     //пришли новые данные, создаем новую точку и вызываем добавление ее в бд
     public void add(){
@@ -173,12 +132,9 @@ public class DotsBean implements Serializable {
 
 //добавляет точку в бд, загружаем первуб страницу
     public void addDot(Dot dot){
-        if(databaseBean.addDot(dot)) System.out.println("добавили точку в бд");
+        if(databaseManager.addDot(dot)) System.out.println("добавили точку в бд");
             else System.out.println(" не добавили точку в бд");
-        //this.dots.add(0, dot);
-        // newPagBut();
         loadStartStr();
-        //loadFromDatabase();
     }
 
 

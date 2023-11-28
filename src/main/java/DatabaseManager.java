@@ -1,26 +1,19 @@
 
-import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
-
-import java.io.Serializable;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@ManagedBean
-@SessionScoped
-public class DatabaseBean implements Serializable {
+
+public class DatabaseManager {
     // Class.forName("org.postgresql.Driver");
 
     private final String url = "jdbc:postgresql://localhost:9999/studs";
     private final String login = "s367519";
     private final String password = "Ph4YbHYFFztmodS5";
     private Connection connection;
-   // private boolean moreThan20 = false;
-    private boolean hasNext = false;
-    private boolean hasPrev = false;
 
-    public DatabaseBean(){
+
+    public DatabaseManager(){
 try {
     Class.forName("org.postgresql.Driver");
     connectToDatabase();
@@ -55,8 +48,8 @@ try {
             addStatement.setDouble(2, dot.getY());
             addStatement.setDouble(3, dot.getR());
             addStatement.setBoolean(4, dot.getResult());
-           // addStatement.setString(5, dot.getOwner());
-            addStatement.setString(5,"owner");
+            addStatement.setString(5, dot.getOwner());
+            //addStatement.setString(5,"owner");
             addStatement.setString(6, dot.getTime());
             addStatement.executeUpdate();
             addStatement.close();
@@ -68,18 +61,13 @@ try {
         }
     }
     //вернет количество страниц по 20 точек, для пагинации,
-    // и проверит есть ли следующаяя страинца
-    public int strCount(String owner, int str){
+    public int strCount(String owner){
         try{
             PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
             countStatement.setString(1, owner);
             ResultSet resultSet = countStatement.executeQuery();
             resultSet.next();
             int count = resultSet.getInt(1);
-            //проверяет есть ли следующая страница, относительно текущего str
-            if(count > (str + 1) * limit) hasNext = true;
-            else hasNext = false;
-
             return (int) Math.ceil(1.0 * count / limit);
         } catch (SQLException e){
             //
@@ -87,49 +75,6 @@ try {
         }
     }
 
-//    public void checkCount(String owner){
-//        try{
-//            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
-//            countStatement.setString(1, owner);
-//            ResultSet resultSet = countStatement.executeQuery();
-//            resultSet.next();
-//            int count = resultSet.getInt(1);
-//            if(count > 20) moreThan20 = true;
-//        } catch (SQLException e){
-//            //
-//        }
-//    }
-
-    //проверяет есть ли следующая страница относительно текущей
-    public void checkHasNext(String owner, int str){
-        try{
-            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
-            countStatement.setString(1, owner);
-            ResultSet resultSet = countStatement.executeQuery();
-            resultSet.next();
-            int count = resultSet.getInt(1);
-            if(count > (str + 1) * limit) hasNext = true;
-                else hasNext = false;
-        } catch (SQLException e){
-            //
-        }
-    }
-
-// все фигня, ниче оно не делает
-    //проверяет есть ли предыдущая страница относительно текущей
-//    public void checkHasPrev(String owner, int str){
-//        try{
-//            PreparedStatement countStatement = connection.prepareStatement(GET_COUNT);
-//            countStatement.setString(1, owner);
-//            ResultSet resultSet = countStatement.executeQuery();
-//            resultSet.next();
-//            int count = resultSet.getInt(1);
-//            if(count > str * limit) hasNext = true;
-//            else hasNext = false;
-//        } catch (SQLException e){
-//            //
-//        }
-//    }
 
 
     //вернет список всех точек автора
@@ -149,8 +94,8 @@ try {
         return dots;
     }
 
-    //вернет первые 20 точек автора, хз зачем нужно
 
+    //вернет первые 20 точек автора,
     public List<Dot> get20DotsByOwner(String owner) {
         List<Dot> dots = new LinkedList<>();
         try {
@@ -159,13 +104,10 @@ try {
             ResultSet resultSet = getStatement.executeQuery();
 
             dots = dotsFromResult(resultSet);
-            System.out.println("size: " + dots.size());
+           // System.out.println("size: " + dots.size());
 
-           // if(!moreThan20) checkCount(owner);
-
-            //return dots;
         } catch (SQLException e){
-            // return null;
+            //
         }
         return dots;
     }
@@ -180,20 +122,12 @@ try {
             ResultSet resultSet = getStatement.executeQuery();
 
             dots = dotsFromResult(resultSet);
-           // System.out.println("size: " + dots.size());
-            //if(!moreThan20) checkCount(owner);
-            //checkHasNext(owner, str);
-            //return dots;
         } catch (SQLException e){
             // return null;
         }
         return dots;
     }
 
-    //есть ли след стр?
-    public boolean getHasNext(){
-        return hasNext;
-    }
 
 
     //вернет все точки из бд
@@ -207,7 +141,6 @@ try {
         } catch (SQLException e){
             // return null;
         }
-        // System.out.println("достали "+ dots.size() +"точек");
         return dots;
     }
 

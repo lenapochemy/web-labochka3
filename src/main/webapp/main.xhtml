@@ -72,9 +72,7 @@
                                  id="check"
                                  value="Проверить"
                                  action="#{dotsBean.add()}">
-<!--                    <f:ajax onevent="canvasDrawer.drawArea(canvasDrawer.lastR)"/>-->
                 </h:commandButton>
-<!--                мб сюда фигануть удаленные команды или ajax-->
                 <h:button value="На стартовую страницу"
                           id="to_start"
                           styleClass="butt"
@@ -93,11 +91,8 @@
     <div class="result_in_table">
         <h:form id="paginat">
             <h:dataTable id="pagBut" value="#{dotsBean.pagBut}" var="str">
-<!--                <p:remoteCommand name="dotsFromPage" update="updateCanvas" process="@this"/>-->
                 <h:column>
-                    <h:commandButton styleClass="#{dotsBean.getPageClass(str)}" value="#{str + 1}" action="#{dotsBean.loadStr(str)}" >
-<!--                        <p:remoteCommand name="new_page" update="updateCanvas" process="@this"/>-->
-                    </h:commandButton>
+                    <h:commandButton styleClass="#{dotsBean.getPageClass(str)}" value="#{str + 1}" action="#{dotsBean.loadStr(str)}"/>
                 </h:column>
 
             </h:dataTable>
@@ -125,24 +120,11 @@
                 <h:outputText styleClass="#{dot.resultClass}" id="result" value="#{dot.resultString}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Текущее время</f:facet>
+                <f:facet name="header">Время</f:facet>
                 <h:outputText id="time" value="#{dot.time}"/>
             </h:column>
         </h:dataTable>
 
-<!--        <h:form id="pages">-->
-<!--            <h:commandButton id="prev_pag"-->
-<!--                             value="пред стр"-->
-<!--                             styleClass="butt"-->
-<!--                             action="#{dotsBean.loadPrevFromDatabase()}"-->
-<!--                             rendered="#{dotsBean.prevButton}"/>-->
-<!--            <h:commandButton id="next_pag"-->
-<!--                             value="след стр"-->
-<!--                             styleClass="butt"-->
-<!--                             action="#{dotsBean.loadNextFromDatabase()}"-->
-<!--                             rendered="#{dotsBean.nextButton}"/>-->
-
-<!--        </h:form>-->
 
 <!--        загружает первую страницу-->
         <p:remoteCommand name="checkUpdate" action="#{dotsBean.loadStartStr()}" update="table" process="@this"/>
@@ -152,7 +134,6 @@
         <p:remoteCommand name="updateCan" update="updateCanvas" process="@this"/>
 <!--        обновляет кнопки пагинации-->
         <p:remoteCommand name="updateButtons" update="paginat"/>
-<!--        <p:remoteCommand name="update_pages" update="pages"/>-->
       <!--  <p:remoteCommand name="setParamR" action="#{dotsBean.newDot.setR(1)}" process="@this"/> -->
 
     </div>

@@ -12,7 +12,6 @@ class CanvasDrawer{
 
     // обрабатывает клик по графику
     clickDot(event){
-        console.log("aaaaa try draw");
         let loc = this.windowToCanvas(canvas, event.clientX, event.clientY);
         if(this.lastR == null){
             alert('выберите радиус сначала');
@@ -21,7 +20,7 @@ class CanvasDrawer{
         // получаем значения x и y
         let x = this.xFromCanvas(loc.x);
         let y = this.yFromCanvas(loc.y);
-        console.log("x: " + x + " y: " + y);
+        //console.log("x: " + x + " y: " + y);
 
         // сохраняем значение радиуса в сессии
         sessionStorage.setItem("lastR", this.lastR);
@@ -34,8 +33,6 @@ class CanvasDrawer{
                 {name: "r", value: this.lastR.toString()}
             ]
         )
-        console.log("оправили точку");
-
         checkUpdate(); //загружаем первую страницу пагинации
         updateButtons(); //обновляем кнопки пагинации
 
@@ -45,30 +42,12 @@ class CanvasDrawer{
 
     }
 
-
-    //рисует точки на граыике
-    drawDozt(x, y, r, result){
-        console.log("зашли в рисование точки r=" + this.lastR);
-        x = this.xToCanvas(x);
-        y = this.yToCanvas(y);
-        //if(r === this.lastR) {
-            console.log("in if");
-            if (result) this.ctx.fillStyle = "green";
-            else this.ctx.fillStyle = "red";
-           // this.ctx.arc(x, y, 1.5, 0, Math.PI * 2, false);
-            this.ctx.fillRect(x, y, 3, 3);
-            this.ctx.fillStyle = "deeppink";
-       // }
-        console.log("nbgj в рисование точки");
-    }
-
     drawDot(x, y, r, result){
-        console.log("r=" + r + " lastR=" + this.lastR);
+      //  console.log("r=" + r + " lastR=" + this.lastR);
         x = this.xToCanvas(x);
         y = this.yToCanvas(y);
-        console.log("x=" + x + " y=" + y);
+        //console.log("x=" + x + " y=" + y);
        if(r == this.lastR){
-            console.log("in if");
             if(result) {this.ctx.fillStyle = "green";}
                 else {this.ctx.fillStyle = "red";}
                 this.ctx.fillRect(x, y, 3, 3);
@@ -79,7 +58,6 @@ class CanvasDrawer{
 
     //рисует все точки из таблицы на график
     drawAllDots(){
-       // console.log("in draw all dots");
         $("#table tr").each(function (){
             //let rowLength = table.rows.length;
             let row = $(this);
@@ -88,7 +66,7 @@ class CanvasDrawer{
             let r = parseFloat(row.find("td:eq(3)").text());
             let result = (row.find("td:eq(4)").text() === "Точка попала");
 
-            console.log("x: " + x + " y: " + y +" r: " + r +  " res: " + result);
+           // console.log("x: " + x + " y: " + y +" r: " + r +  " res: " + result);
             canvasDrawer.drawDot(x, y, r, result);
 
     })
@@ -124,7 +102,6 @@ class CanvasDrawer{
         this.ctx.fill();
 
         this.drawAxes();
-        console.log("обираемся рисовать точ4и");
         this.drawAllDots();
     }
 
