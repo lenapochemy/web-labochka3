@@ -15,8 +15,8 @@ public class DotsBean implements Serializable {
     FacesContext context = FacesContext.getCurrentInstance();
     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 
-    //private String owner = session.getId();
-    private String owner = "owner";
+    private String owner = session.getId();
+    //private String owner = "owner";
     //номер текущей страницы
     private int str = 0;
 
