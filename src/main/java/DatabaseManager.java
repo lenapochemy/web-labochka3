@@ -9,7 +9,7 @@ public class DatabaseManager {
 
     private final String url = "jdbc:postgresql://localhost:9999/studs";
     private final String login = "s367519";
-    private final String password = "Ph4YbHYFFztmodS5";
+    private final String password = "*";
     private Connection connection;
 
 
